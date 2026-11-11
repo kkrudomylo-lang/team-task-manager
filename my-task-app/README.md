@@ -2,7 +2,7 @@
 
 Краткое описание: SPA-приложение для управления проектами и задачами внутри команды. Позволяет создавать проекты, распределять задачи по исполнителям, отслеживать дедлайны и оставлять комментарии.
 
-[Демо](https://team-task-manager-fhz30m4jz-kkrudomylo-lang.vercel.app)
+[Демо](https://team-task-manager-fhz30m4jz-kkrudomylo-lang.vercel.app) | [Репозиторий GitHub](https://github.com/kkrudomylo-lang/team-task-manager)
 
 ![Скриншот страницы входа](docs/login.png)
 ![Скриншот дашборда](docs/dashboard.png)
@@ -24,7 +24,7 @@
 - **Git** — контроль версий.
 
 ## Запуск локально
-1. Клонировать репозиторий: `git clone <ссылка_на_ваш_github>`
+1. Клонировать репозиторий: `git clone https://github.com/kkrudomylo-lang/team-task-manager.git`
 2. Установить зависимости: `npm install`
 3. Запустить проект: `npm run dev`
 4. Открыть в браузере: `http://localhost:5173/`
