@@ -1,16 +1,47 @@
-# React + Vite
+# TeamTask — Менеджер задач для команд (Аналог Jira)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Краткое описание: SPA-приложение для управления проектами и задачами внутри команды. Позволяет создавать проекты, распределять задачи по исполнителям, отслеживать дедлайны и оставлять комментарии.
 
-Currently, two official plugins are available:
+[Демо](ссылка_на_vercel_или_другой_хостинг_позже) 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Скриншот страницы входа](docs/login.png)
+![Скриншот дашборда](docs/dashboard.png)
+![Скриншот канбан-доски](docs/kanban.png)
 
-## React Compiler
+## Возможности
+- Аутентификация (страница входа с валидацией).
+- Дашборд со списком проектов и ролями (Владелец, Участник, Наблюдатель).
+- Канбан-доска с тремя колонками ("Надо сделать", "В процессе", "Готово").
+- Перемещение задач между статусами (по кнопкам).
+- Фильтрация задач по исполнителю.
+- Статистика проекта (количество выполненных задач).
+- Карточка задачи (модальное окно) с комментариями и журналом изменений.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Технологии
+- **React** (Vite) — основа для SPA-клиента.
+- **JavaScript** — логика.
+- **CSS** (Flexbox, Grid) — адаптивная верстка.
+- **Git** — контроль версий.
 
-## Expanding the ESLint configuration
+## Запуск локально
+1. Клонировать репозиторий: `git clone <ссылка_на_ваш_github>`
+2. Установить зависимости: `npm install`
+3. Запустить проект: `npm run dev`
+4. Открыть в браузере: `http://localhost:5173/`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Тесты
+*(Здесь позже напишем, как запускать тесты, когда Студент В их настроит)*
+
+## Принятые решения
+- Выбран светлый деловой стиль с мягкими углами (border-radius) для удобства пользователей.
+- Состояние задач хранится в React `useState` (имитация сервера, в будущем будет заменено на реальное API от бэкенд-разработчика).
+
+## Использование ИИ-ассистентов
+ИИ (ChatGPT/DeepSeek) использовался для генерации базовой структуры компонентов, написания CSS-стилей и помощи в обработке состояний (загрузка, ошибки). Весь код проверен и понятен студенту. Любая строка может быть объяснена на защите.
+
+## Что бы я улучшил
+- Добавить Drag and Drop (перетаскивание карточек мышкой).
+- Сделать реальное подключение к WebSocket для обновления задач в реальном времени.
+
+## Лицензия
+MIT
