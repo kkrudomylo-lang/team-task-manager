@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Kanban from './Kanban';
 import './Dashboard.css';
 
 function Dashboard({ onLogout }) {
@@ -7,6 +8,12 @@ function Dashboard({ onLogout }) {
     { id: 2, title: 'Подготовка к экзамену', description: 'Повторить все лекции по веб-технологиям', tasksCount: 5, role: 'Участник' },
     { id: 3, title: 'Дизайн логотипа', description: 'Нарисовать логотип для нашего стартапа', tasksCount: 3, role: 'Наблюдатель' }
   ]);
+
+  const [activeProject, setActiveProject] = useState(null);
+
+  if (activeProject) {
+    return <Kanban project={activeProject} onBack={() => setActiveProject(null)} />;
+  }
 
   return (
     <div className="dashboard-container">
@@ -32,6 +39,7 @@ function Dashboard({ onLogout }) {
               <p>{project.description}</p>
               <div className="project-card-footer">
                 <span>📋 Задач: {project.tasksCount}</span>
+                <button className="open-board-btn" onClick={() => setActiveProject(project)}>Открыть →</button>
               </div>
             </div>
           ))}

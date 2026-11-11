@@ -9,7 +9,7 @@
 .login-form {
   background: white;
   padding: 30px;
-  border-radius: 12px; /* Мягкие углы */
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 400px;
@@ -22,11 +22,12 @@
   box-sizing: border-box; font-size: 16px;
 }
 .input-group input:focus { outline: none; border-color: #3498db; }
-button {
+/* ВАЖНО: теперь стиль применяется ТОЛЬКО к кнопке входа */
+.login-form button {
   width: 100%; padding: 12px; background-color: #3498db; color: white;
   border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px;
 }
-button:disabled { background-color: #95a5a6; cursor: not-allowed; }
+.login-form button:disabled { background-color: #95a5a6; cursor: not-allowed; }
 .error-message {
   background-color: #ffebee; color: #c62828; padding: 10px;
   border-radius: 8px; margin-bottom: 15px; text-align: center;

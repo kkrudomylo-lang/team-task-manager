@@ -1,16 +1,31 @@
 .dashboard-container { min-height: 100vh; background-color: #f4f7f9; font-family: Arial, sans-serif; }
 .dashboard-header { display: flex; justify-content: space-between; align-items: center; background-color: #ffffff; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
 .logo { font-size: 24px; font-weight: bold; color: #2c3e50; }
 .user-info { display: flex; align-items: center; gap: 15px; }
-.logout-btn { background: none; border: 1px solid #ccc; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+
+/* Кнопка "Выйти" больше не растягивается */
+.logout-btn { background: none; border: 1px solid #ccc; padding: 8px 15px; border-radius: 8px; cursor: pointer; width: auto; font-size: 14px; }
+.logout-btn:hover { background: #f0f0f0; }
+
 .dashboard-main { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-.dashboard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-.create-btn { background-color: #3498db; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; }
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.dashboard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+.dashboard-top h2 { margin: 0; color: #2c3e50; }
+
+/* Кнопка "Создать проект" нормального размера */
+.create-btn { background-color: #3498db; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; width: auto; }
+.create-btn:hover { background-color: #2980b9; }
+
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
 .project-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: 0.2s; }
 .project-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-.project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+
+.project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px; }
 .project-card h3 { margin: 0; color: #2c3e50; font-size: 18px; }
-.role-badge { background-color: #e8f4fd; color: #3498db; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
-.project-card p { color: #7f8c8d; font-size: 14px; flex-grow: 1; }
-.project-card-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; color: #95a5a6; font-size: 14px; }
+
+.role-badge { background-color: #e8f4fd; color: #3498db; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; white-space: nowrap; }
+.project-card p { color: #7f8c8d; font-size: 14px; flex-grow: 1; margin-bottom: 20px; }
+
+.project-card-footer { padding-top: 15px; border-top: 1px solid #eee; color: #95a5a6; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+.open-board-btn { background: #2c3e50; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; width: auto; white-space: nowrap; }
+.open-board-btn:hover { background: #1a252f; }
