@@ -19,3 +19,41 @@
 .project-card-footer { padding-top: 15px; border-top: 1px solid #eee; color: #95a5a6; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
 .open-board-btn { background: #2c3e50; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; width: auto; white-space: nowrap; }
 .open-board-btn:hover { background: #1a252f; }
+
+/* --- СТИЛИ ДЛЯ МОДАЛЬНОГО ОКНА --- */
+.modal-overlay { 
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+  background: rgba(0,0,0,0.5); 
+  display: flex; justify-content: center; align-items: center; 
+  z-index: 1000; 
+}
+
+.modal-content { 
+  background: white; 
+  width: 100%; max-width: 500px; 
+  border-radius: 12px; padding: 25px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+}
+
+.modal-header { 
+  display: flex; justify-content: space-between; align-items: center; 
+  border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; 
+}
+
+.modal-header h2 { margin: 0; color: #2c3e50; font-size: 20px; }
+.close-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #7f8c8d; width: auto; }
+.close-btn:hover { color: #e74c3c; }
+
+.input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 5px; color: #2c3e50; font-weight: bold; font-size: 14px; }
+.input-group input, .input-group textarea { 
+  width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; 
+  font-size: 14px; font-family: inherit; box-sizing: border-box; resize: vertical;
+}
+.input-group input:focus, .input-group textarea:focus { outline: none; border-color: #3498db; }
+
+.submit-btn { 
+  width: 100%; padding: 12px; background-color: #27ae60; color: white; 
+  border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; 
+}
+.submit-btn:hover { background-color: #219653; }
