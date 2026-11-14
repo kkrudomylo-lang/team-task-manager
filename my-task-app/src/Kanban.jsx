@@ -1,30 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Kanban.css';
 
 function Kanban({ project, onBack }) {
-  const [tasks, setTasks] = useState([
-    { 
-      id: 1, title: 'Сверстать страницу входа', status: 'done', assignee: 'Студент А', deadline: '10.11.2026',
-      comments: [{ id: 1, author: 'Студент Б', text: 'Выглядит отлично!' }],
-      history: [{ id: 1, text: 'Студент А перевел задачу в "Готово"' }]
-    },
-    { 
-      id: 2, title: 'Написать API для логина', status: 'in-progress', assignee: 'Студент Б', deadline: '15.11.2026',
-      comments: [], history: [{ id: 1, text: 'Студент А перевел задачу в "В процессе"' }]
-    },
-    { 
-      id: 3, title: 'Создать базу данных', status: 'todo', assignee: 'Студент В', deadline: '20.11.2026',
-      comments: [], history: [{ id: 1, text: 'Студент А создал задачу' }]
-    },
-    { 
-      id: 4, title: 'Купить домен', status: 'todo', assignee: 'Студент В', deadline: '25.11.2026',
-      comments: [], history: [{ id: 1, text: 'Студент А создал задачу' }]
-    }
-  ]);
+  // Массив теперь пустой, данные придут с сервера
+  const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [filterAssignee, setFilterAssignee] = useState('all');
   const [selectedTask, setSelectedTask] = useState(null);
   const [newComment, setNewComment] = useState('');
+
+  // ⬇️⬇️⬇️ ВОТ ТУТ ССЫЛКА НА ТВОЙ СЕРВЕР НА RENDER ⬇️⬇️⬇️
+  const API_URL = 'https://team-task-manager-6173.onrender.com/api/tasks';
+
+  // 1. ЗАГРУЗКА ЗАДАЧ ПРИ ОТКРЫТИИ ДОСКИ (GET)
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(API_URL)
+      .then(res => {
+        if (!res.ok) throw new Error('Ошибка сервера');
+        return res.json();
+      })
+      .then(data => {
+        // Преобразуем данные из базы под формат фронтенда
+        const formattedTasks = data.map(t => ({
+          ...t,
+          comments: [], 
+          history: [{ id: Date.now(), text: 'Задача загружена из базы' }]
+        }));
+        setTasks(formattedTasks);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Не удалось загрузить задачи. Проверьте, запущен ли сервер.');
+        setIsLoading(false);
+      });
+  }, []);
+
+  // 2. ДОБАВЛЕНИЕ ЗАДАЧИ (POST)
+  const addTaskToServer = () => {
+    const title = prompt("Введите название новой задачи:");
+    if (!title) return;
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, status: 'todo', assignee: 'Студент А', deadline: '01.12.2026' })
+    })
+    .then(res => res.json())
+    .then(newTask => {
+      setTasks([...tasks, { ...newTask, comments: [], history: [] }]);
+    })
+    .catch(err => alert('Ошибка при создании задачи'));
+  };
 
   const moveTask = (taskId, newStatus, statusName) => {
     setTasks(tasks.map(task => {
@@ -34,22 +64,13 @@ function Kanban({ project, onBack }) {
       }
       return task;
     }));
-    if (selectedTask && selectedTask.id === taskId) {
-      setSelectedTask(prev => ({ 
-        ...prev, 
-        status: newStatus, 
-        history: [...prev.history, { id: Date.now(), text: `Студент А перевел задачу в "${statusName}"` }] 
-      }));
-    }
   };
 
   const addComment = (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
     const comment = { id: Date.now(), author: 'Студент А', text: newComment };
-    setTasks(tasks.map(task => 
-      task.id === selectedTask.id ? { ...task, comments: [...task.comments, comment] } : task
-    ));
+    setTasks(tasks.map(task => task.id === selectedTask.id ? { ...task, comments: [...task.comments, comment] } : task));
     setSelectedTask(prev => ({ ...prev, comments: [...prev.comments, comment] }));
     setNewComment('');
   };
@@ -74,7 +95,9 @@ function Kanban({ project, onBack }) {
       <header className="kanban-header">
         <button className="back-btn" onClick={onBack}>← Назад к проектам</button>
         <h2>Проект: {project.title}</h2>
+        
         <div className="header-controls">
+          <button className="create-btn" onClick={addTaskToServer}>+ Добавить задачу</button>
           <div className="stats">📊 Выполнено: {doneCount} из {tasks.length}</div>
           <select className="filter-select" value={filterAssignee} onChange={(e) => setFilterAssignee(e.target.value)}>
             <option value="all">Все исполнители</option>
@@ -85,31 +108,30 @@ function Kanban({ project, onBack }) {
         </div>
       </header>
 
-      <div className="kanban-board">
-        <div className="kanban-column">
-          <h3>📋 Надо сделать</h3>
-          {filteredTasks.filter(t => t.status === 'todo').length === 0 && (
-            <p className="empty-column-text">Нет задач</p>
-          )}
-          {filteredTasks.filter(t => t.status === 'todo').map(renderTaskCard)}
+      {isLoading && <div className="status-message">Загрузка задач...</div>}
+      {error && <div className="error-message">{error}</div>}
+
+      {!isLoading && !error && (
+        <div className="kanban-board">
+          <div className="kanban-column">
+            <h3>📋 Надо сделать</h3>
+            {filteredTasks.filter(t => t.status === 'todo').length === 0 && <p className="empty-column-text">Нет задач</p>}
+            {filteredTasks.filter(t => t.status === 'todo').map(renderTaskCard)}
+          </div>
+          
+          <div className="kanban-column">
+            <h3>⚙️ В процессе</h3>
+            {filteredTasks.filter(t => t.status === 'in-progress').length === 0 && <p className="empty-column-text">Нет задач</p>}
+            {filteredTasks.filter(t => t.status === 'in-progress').map(renderTaskCard)}
+          </div>
+          
+          <div className="kanban-column">
+            <h3>✅ Готово</h3>
+            {filteredTasks.filter(t => t.status === 'done').length === 0 && <p className="empty-column-text">Нет задач</p>}
+            {filteredTasks.filter(t => t.status === 'done').map(renderTaskCard)}
+          </div>
         </div>
-        
-        <div className="kanban-column">
-          <h3>⚙️ В процессе</h3>
-          {filteredTasks.filter(t => t.status === 'in-progress').length === 0 && (
-            <p className="empty-column-text">Нет задач</p>
-          )}
-          {filteredTasks.filter(t => t.status === 'in-progress').map(renderTaskCard)}
-        </div>
-        
-        <div className="kanban-column">
-          <h3>✅ Готово</h3>
-          {filteredTasks.filter(t => t.status === 'done').length === 0 && (
-            <p className="empty-column-text">Нет задач</p>
-          )}
-          {filteredTasks.filter(t => t.status === 'done').map(renderTaskCard)}
-        </div>
-      </div>
+      )}
 
       {selectedTask && (
         <div className="modal-overlay" onClick={() => setSelectedTask(null)}>
