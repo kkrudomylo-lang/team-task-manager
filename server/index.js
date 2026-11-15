@@ -49,6 +49,9 @@ const authenticateToken = (req, res, next) => {
 // 1. Регистрация
 app.post('/api/register', async (req, res) => {
   try {
+        if (!email || !password || !name) {
+      return res.status(400).json({ error: 'Заполните все поля: email, password, name' });
+    }
     const { email, password, name } = req.body;
     
     // Проверяем, есть ли уже такой юзер
