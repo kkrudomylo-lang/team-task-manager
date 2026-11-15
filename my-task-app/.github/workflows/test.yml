@@ -1,13 +1,5 @@
 name: Run Tests
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -18,3 +10,5 @@ jobs:
           node-version: '20'
       - run: cd server && npm install
       - run: cd server && npm test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
